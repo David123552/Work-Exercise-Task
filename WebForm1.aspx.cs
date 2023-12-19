@@ -15,20 +15,21 @@ namespace MyWebApp
 
         }
 
-        protected void postcodebutton_Click(Object sender, EventArgs e)
+        protected void postcodebutton_Click(object sender, EventArgs e)
         {
             string inputValue = postcodebox.Text.Trim(); // Get text from the TextBox
+            
             if (!string.IsNullOrEmpty(inputValue))
             {
 
-                string apiUrl = "https://api.getAddress.io/autocomplete";
+                string apiUrl = $"https://api.getAddress.io/autocomplete/{inputValue}?api-key=HM26jrnc706LzgCJdibTtw41275";
 
                 using (HttpClient client = new HttpClient())
                 {
                     try
                     {
                         // Make a request to the external API
-                        HttpResponseMessage response = client.GetAsync(apiUrl + "?input=" + inputValue).Result;
+                        HttpResponseMessage response = client.GetAsync(apiUrl + "&input=" + inputValue).Result;
 
                         if (response.IsSuccessStatusCode)
                         {
