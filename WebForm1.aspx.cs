@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 
 namespace MyWebApp
 {
@@ -36,8 +37,15 @@ namespace MyWebApp
                             // Read the response content
                             string responseData = response.Content.ReadAsStringAsync().Result;
 
+                            //dynamic responseObject = JsonConvert.DeserializeObject(responseData);
+                            //var addresses = responseObject.address;
+                            //tried this in a number of ways but was unable to get it to work
+
+
                             //Processes the response data. I know that it isnt comma-seperated, it is just a placeholder.
+
                             string[] options = responseData.Split(',');
+
 
                             // Populate the DropDownList with the received options
                             ddlOptions.Items.Clear();
