@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using GetAddress;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 
 namespace MyWebApp
@@ -15,6 +17,8 @@ namespace MyWebApp
         {
 
         }
+
+
 
         protected void postcodebutton_Click(object sender, EventArgs e)
         {
@@ -37,22 +41,21 @@ namespace MyWebApp
                             // Read the response content
                             string responseData = response.Content.ReadAsStringAsync().Result;
 
-                            //dynamic responseObject = JsonConvert.DeserializeObject(responseData);
-                            //var addresses = responseObject.address;
-                            //tried this in a number of ways but was unable to get it to work
+                            var reply = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(responseData);                           
 
 
-                            //Processes the response data. I know that it isnt comma-seperated, it is just a placeholder.
-
-                            string[] options = responseData.Split(',');
-
-
-                            // Populate the DropDownList with the received options
+                            Dictionary<string, string> addressIdMapping = new Dictionary<string, string>();
+                            
                             ddlOptions.Items.Clear();
-                            foreach (string option in options)
-                            {
-                                ddlOptions.Items.Add(option);
+                            
+                            foreach (var suggestion in reply["suggestions"])
+                                {
+                                string address = suggestion["address"];
+                                string id = suggestion["id"];
+                                addressIdMapping[address] = id;
+                                ddlOptions.Items.Add(address);
                             }
+
                         }
                         else
                         {
@@ -76,6 +79,11 @@ namespace MyWebApp
                 ddlOptions.Items.Add("Please enter a value");
             }
 
+        }
+
+        protected void filltextbutton_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }

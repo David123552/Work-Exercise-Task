@@ -4,12 +4,7 @@
 <asp:TextBox ID="postcodebox" runat="server"></asp:TextBox>
 <asp:Button ID="postcodebutton" runat="server" onclick="postcodebutton_Click" Text="Submit"></asp:Button>
 <asp:DropDownList ID="ddlOptions" runat="server"></asp:DropDownList>
-
-<Script language="C#" runat="server">
-
-
-    
-</Script>
-
-
+<asp:Button ID="filltextboxes" runat="server" OnClick="filltextbutton_Click" Text="Find"></asp:button>
+<asp:TextBox ID="AddressBoxTest" runat="server"></asp:TextBox>
+<asp:TextBox ID="IDTextBox" runat="server"></asp:TextBox>
 </asp:Content>
