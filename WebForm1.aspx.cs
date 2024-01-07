@@ -13,9 +13,12 @@ namespace MyWebApp
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
+
+        Dictionary<string, string> addressIdMapping = new Dictionary<string, string>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ddlOptions.SelectedIndexChanged += new EventHandler(FillBoxes);
         }
 
 
@@ -34,7 +37,7 @@ namespace MyWebApp
                     try
                     {
                         // Make a request to the external API
-                        HttpResponseMessage response = client.GetAsync(apiUrl + "&input=" + inputValue).Result;
+                        HttpResponseMessage response = client.GetAsync(apiUrl + "&input=" + inputValue + "&all=true").Result;
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -44,7 +47,7 @@ namespace MyWebApp
                             var reply = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(responseData);                           
 
 
-                            Dictionary<string, string> addressIdMapping = new Dictionary<string, string>();
+                            //Dictionary<string, string> addressIdMapping = new Dictionary<string, string>();
                             
                             ddlOptions.Items.Clear();
                             
@@ -81,10 +84,32 @@ namespace MyWebApp
 
         }
 
-        protected void filltextbutton_Click(object sender, EventArgs e)
+        protected void FillBoxes(object sender, EventArgs e)
         {
-            
+            string selectedAddress = ddlOptions.SelectedValue;
+            AddressBoxTest.Text = selectedAddress;
+
+            if (addressIdMapping.ContainsKey(selectedAddress))
+            {
+                string selectedID = addressIdMapping[selectedAddress];
+                HandleAddressSelection(selectedID);
+            }
+            else
+            {
+                IDTextBox.Text = "Not being called or No Value";
+                //at the current moment, it is not recieving information from the dictionary/data mapping.
+                //Might not be able to see the information
+            }
+
+
+        
         }
+
+        protected void HandleAddressSelection(string selectedID)
+        {
+            IDTextBox.Text = selectedID;      
+        }
+
 
     }
 }
